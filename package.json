@@ -1,0 +1,23 @@
+{
+  "name": "caculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "test": "electron .",
+    "build": "electron-build",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.1.0"
+  },
+  "package": "electron-packager ."
+}

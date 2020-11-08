@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Steel | Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="./assets/bootstrap.css">
+    <link rel="stylesheet" href="./assets/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="./assets/fa.css"> -->
+
+    <style>
+        html,
+        body {
+            margin: 0px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow p-2" style="z-index: 10;">
+            <div class="container-fluid">
+                <a class="navbar-brand font-weight-bold" href="#">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F1%2F1e%2FCalculator_icon.svg%2F1024px-Calculator_icon.svg.png&f=1&nofb=1"
+                        width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    STEEL
+                    <small class="small">calculator<small></small></small></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-window-minimize"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-window-maximize"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" title="Logout" href="#"><i class="fa fa-window-close"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav> -->
+        <div class="container my-5">
+
+            <div class="alert alert-danger" id="error_tag">
+
+            </div>
+
+            <!-- DATA ENTRY -->
+            <div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead class="bg-dark text-light">
+                            <tr class="">
+                                <th>Description</th>
+                                <th>Ib/Ft</th>
+                                <th class="text-center">Ft</th>
+                                <th>Cost/Ft</th>
+                                <th>Quantity</th>
+                                <th>Price/Piece</th>
+                                <th>Delete</th>
+                                <th>Refresh</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_fields">
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- RESULTS -->
+            <div class="row my-5">
+                <div class="col-sm-6 border-right">
+
+                    <p class="display-4">Add Details</p>
+                    <div>
+                        <button id="square_feet_button" class="btn btn-outline-primary" disabled>Square Ft</button>
+                        <button id="square_mix_button" class="btn btn-outline-primary">Flat > Square > Round</button>
+                    </div>
+                    <div class="table-responsive my-4">
+                        <table>
+                            <tr>
+                                <th>Markup</th>
+                                <td>&nbsp;&nbsp;&nbsp;<input type="number" id="markup"
+                                        class="border-0 bg-secondary rounded text-white" style="width: 70px;"><b> %</b>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th>Shipping Cost &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <td><b>$</b><input id="shipping_cost" type="number"
+                                        class="border-0 bg-secondary rounded text-white" style="width: 70px;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Miscellaneous</th>
+                                <td><b>$</b><input id="miscellaneous" type="number"
+                                        class="border-0 bg-secondary rounded text-white" style="width: 70px;">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <p class="display-4">Finalization</p>
+
+                    <div class="table-responsive my-4">
+                        <table>
+                            <tr>
+                                <th>Total Price &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <td id="price_total"></td>
+                            </tr>
+                            <tr>
+                                <th>Profit</th>
+                                <td id="price_profit" class="text-danger font-italic"> method not defined</td>
+                            </tr>
+                            <tr>
+                                <th>Price/lb</th>
+                                <td id="price_total_lb"></td>
+                            </tr>
+                        </table>
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary" id="caculate_button">Calculate</button>
+                            <button id="clean_all" class="btn btn-outline-danger">Clean All Records</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>window.$ = window.jQuery = require('./assets/jquerry.js');</script>
+    <script src="./assets/bootstraps.js"></script>
+
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        let count = 0;
+        let square_feet_button = $('#square_feet_button');
+        let square_mix_button = $('#square_mix_button');
+
+        let caculate_button = $('#caculate_button');
+        let cleanAll = $('#clean_all');
+        let error_tag = $('#error_tag');
+
+        let table_fields = $('#table_fields');
+
+        let price_total = $('#price_total');
+        let price_profit = $('#price_profit');
+        let price_total_lb = $('#price_total_lb');
+
+        let delete_item = $('#delete_item');
+        let refresh_item = $('#refresh_item');
+
+        let markup = $('#markup');
+        let shipping_cost = $('#shipping_cost');
+        let miscellaneous = $('#miscellaneous');
+
+        error_tag.hide();
+
+        square_feet_button.click(function (event) {
+            table_fields.append(
+                '<tr id="field_' + count + '">\n' +
+                '                        <td><input id="item_data_desc" type="text" class="border-0 bg-secondary rounded text-white" placeholder="Item Description"></td>\n' +
+                '                        <td><input id="item_data_lb_ft" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td class="text-center"><input id="item_data_ft_left" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"> X <input type="text" id="item_data_ft_right" class="border-0 bg-secondary rounded text-white"\n' +
+                '                                                                                            style="width: 80px"></td>\n' +
+                '                        <td><input id="item_data_cost_ft" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><input id="item_data_quantity" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><b>$ </b><input id="item_data_price_piece" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><button class="btn btn-sm text-danger" id="delete_item" data-id="' + count + '"><i class="fa fa-trash"></i></button></td>\n' +
+                '                        <td><button class="btn btn-sm text-primary" id="refresh_item" data-id="' + count + '"><i class="fa fa-refresh"></i></button></td>\n' +
+                '                    </tr>'
+            );
+            ++count;
+        });
+
+        square_mix_button.click(function (event) {
+            table_fields.append(
+                '<tr id="field_' + count + '">\n' +
+                '                        <td><input id="item_data_desc" type="text" class="border-0 bg-secondary rounded text-white" placeholder="Item Description"></td>\n' +
+                '                        <td><input id="item_data_lb_ft" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td class="text-center"><input id="item_data_ft" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><input id="item_data_cost_ft" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><input id="item_data_quantity" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><b>$ </b><input id="item_data_price_piece" type="text" class="border-0 bg-secondary rounded text-white" style="width: 80px"></td>\n' +
+                '                        <td><button class="btn btn-sm text-danger" id="delete_item" data-id="' + count + '"><i class="fa fa-trash"></i></button></td>\n' +
+                '                        <td><button class="btn btn-sm text-primary" id="refresh_item" data-id="' + count + '"><i class="fa fa-refresh"></i></button></td>\n' +
+                '                    </tr>'
+            );
+            ++count;
+        });
+
+
+        caculate_button.click(function (event) {
+
+
+            if (count_rows() <= 0) {
+                alert("Bo Products available now")
+                return;
+            }
+
+            let calculate_total = 0;
+            let total_lb = 0;
+            let error = null;
+            let price = 0;
+
+            count = 1;
+            $('#table_fields > tr').each(function () {
+
+                price_total_lb.text('');
+                price_total.text('');
+
+                let item_data_ft = $(this).find('#item_data_ft');
+                let item_data_quantity = $(this).find('#item_data_quantity');
+                let item_data_cost_ft = $(this).find('#item_data_cost_ft');
+                let item_data_lb_ft = $(this).find('#item_data_lb_ft');
+                //let item_data_ft_left = $(this).find('#item_data_ft_left');
+                //let item_data_ft_right = $(this).find('#item_data_ft_right');
+
+                if (!check_fields(item_data_ft.val()) ||
+                    !check_fields(item_data_quantity.val()) ||
+                    !check_fields(item_data_lb_ft.val()) ||
+                    !check_fields(item_data_cost_ft.val())
+                ) {
+                    error = "ERROR > LB/FT or FT or COST/FT or QUANTITY is missing on row: " + count;
+                    error_tag.text(error);
+                    error_tag.show();
+
+                } else {
+
+                    let item_data_price_piece = $(this).find('#item_data_price_piece');
+
+                    //CALCULATION => cost/ft * ft * Ib/Ft = price/piece.
+                    let temp = (parseFloat(item_data_cost_ft.val()) * parseFloat(item_data_ft.val()) * parseFloat(item_data_lb_ft.val())).toFixed(2);
+                    item_data_price_piece.val(temp);
+
+                    //CALCULATION => cost/ft * ft = price/piece.
+                    // item_data_price_piece.val((parseFloat(item_data_cost_ft.val()) * parseFloat(item_data_ft.val())).toFixed(2));
+
+                    //CALCULATION => (cost/ft * ft)*quantity =  for all here.
+                    calculate_total += temp * parseFloat(item_data_quantity.val());
+                    alert(calculate_total);
+
+                    total_lb += (
+                        parseFloat(item_data_lb_ft.val()) * parseFloat(item_data_ft.val())
+                    ) * parseFloat(item_data_quantity.val());
+
+                    count++;
+                }
+
+            });
+
+
+            if (error == null) {
+                if (check_fields(markup.val()) && check_fields(miscellaneous.val())) {
+                    // ADDING TOTAL + MISC + SHIPPING_COST.
+
+                    let markup_local = parseFloat(markup.val());
+                    let miscellaneous_local = parseFloat(miscellaneous.val());
+                    let shipping_cost_local = parseFloat(shipping_cost.val());
+
+                    let markup_percentage = (markup_local / 100) * calculate_total;
+
+                    calculate_total = calculate_total + shipping_cost_local + miscellaneous_local + markup_percentage;
+
+                    price_total.text(calculate_total.toFixed(2));
+                    price_total_lb.text((calculate_total / total_lb).toFixed(2));
+                    error_tag.hide();
+                } else {
+                    error = "Miscellaneous OR Markup : Missing";
+                    error_tag.text(error);
+                    error_tag.show();
+                }
+            }
+
+
+        });
+
+
+        table_fields.on('click', '#delete_item', function () {
+            let id = $(this).data('id');
+            $('#field_' + id).remove();
+        });
+
+        table_fields.on('click', '#refresh_item', function () {
+            let id = $(this).data('id');
+            $('#field_' + id).find('#item_data_desc').val("");
+            $('#field_' + id).find('#item_data_lb_ft').val("0");
+            $('#field_' + id).find('#item_data_ft').val("0");
+            $('#field_' + id).find('#item_data_cost_ft').val("0");
+            $('#field_' + id).find('#item_data_ft_left').val("0");
+            $('#field_' + id).find('#item_data_ft_right').val("0");
+            $('#field_' + id).find('#item_data_quantity').val("0");
+            $('#field_' + id).find('#item_data_price_piece').val("0");
+        });
+
+        cleanAll.click(function () {
+            clean_all();
+        });
+
+        function check_fields(value) {
+            return !((value == null) || (value === '') || (value === 0));
+        }
+
+        function count_rows() {
+            count = 0;
+            $('#table_fields > tr').each(function () {
+                count++;
+            });
+            return count;
+        }
+
+        function clean_all() {
+
+            price_total.text('');
+            price_profit.text('');
+            price_total_lb.text('');
+            markup.val('');
+            shipping_cost.val('');
+            miscellaneous.val('');
+
+            table_fields.empty();
+            error_tag.hide();
+        }
+
+
+    });
+
+
+</script>
